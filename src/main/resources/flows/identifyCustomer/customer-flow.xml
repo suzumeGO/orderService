@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="customer" class="com.example.orderService.model.Customer"/>
+    <var name="payment" class="com.example.orderService.model.Payment"/>
+
+    <view-state id="customer" view="flows/identifyCustomer/customer" model="customer">
+        <transition on="submit" to="checkPaymentType"/>
+    </view-state>
+
+    <decision-state id="checkPaymentType">
+        <if test="customer.getPaymentType() == T(com.example.orderService.model.Customer.PaymentType).CREDIT_CARD"
+            then="cardDetails" else="customerReady"/>
+    </decision-state>
+
+    <view-state id="cardDetails" view="flows/payment/cardDetails" model="payment">
+        <transition on="cardEntered" to="customerReady"/>
+        <transition on="previous" to="customer" validate="false"/>
+    </view-state>
+
+    <end-state id="customerReady">
+        <output name="customer" required="true"/>
+        <output name="payment"/>
+    </end-state>
+
+</flow>

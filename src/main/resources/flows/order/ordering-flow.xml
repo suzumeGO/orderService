@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="order" class="com.example.orderService.model.Order"/>
+    <var name="products" class="com.example.orderService.model.Products"/>
+    <var name="delivery" class="com.example.orderService.model.DeliveryCompany"/>
+
+    <on-start>
+        <evaluate expression="flowService.getDeliveries()"
+                  result="flowScope.deliveries"/>
+    </on-start>
+
+    <view-state id="catalog" view="flows/catalog/catalog" model="products">
+        <on-render>
+            <evaluate expression="flowService.getCatalogProducts()" result="viewScope.catalog"/>
+        </on-render>
+        <transition on="productsSelected" to="identifyCustomer">
+            <evaluate expression="order.setProducts(flowService.getMoreProductDetails(products.getSelectedProducts()))"/>
+        </transition>
+    </view-state>
+
+    <subflow-state id="identifyCustomer" subflow="identifyCustomer">
+        <input name="order"/>
+        <output name="customer" value="order.customer" required="true"/>
+        <output name="payment" value="order.payment"/>
+        <transition on="customerReady" to="selectDelivery"/>
+    </subflow-state>
+
+    <view-state id="selectDelivery" view="flows/delivery/delivery" model="delivery">
+        <on-entry>
+            <evaluate expression="flowService.getDeliveries()"
+                      result="deliveries"/>
+        </on-entry>
+        <transition on="previous" to="identifyCustomer"/>
+        <transition on="deliverySelected" to="orderInformation">
+            <evaluate expression="order.setDelivery(flowService.findDeliveryByName(delivery.name))"/>
+        </transition>
+    </view-state>
+
+    <view-state id="orderInformation" view="flows/orderInformation/orderInformation" model="order">
+        <on-entry>
+            <evaluate expression="order.getProducts()"
+                      result="products"/>
+        </on-entry>
+        <transition on="confirm" to="thanksCustomer">
+            <evaluate expression="flowService.saveOrder(order)"/>
+<!--            хранятся в target/generated-sources/orders-->
+        </transition>
+    </view-state>
+
+    <view-state id="thanksCustomer" view="flows/success/success"/>
+
+    <end-state id="home" view="externalRedirect:contextRelative:/"/>
+
+    <global-transitions>
+        <transition on="home" to="home" validate="false"/>
+    </global-transitions>
+
+</flow>

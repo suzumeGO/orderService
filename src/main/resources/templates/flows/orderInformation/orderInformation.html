@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Подтверждение</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<form method="post" th:object="${order}">
+    <div class="card my-5" style="margin-left: 5%; display: flex; width: 90%; height: auto;">
+        <div class="heading" style="padding-left: 20px; padding-top: 20px;"><h2>Список товаров</h2></div>
+        <ul class="info" style="padding-left: 30px; font-size: 18px;">
+            <li th:each="product : *{products}" th:text="${product}">
+        </ul>
+    </div>
+    <div class="card my-5" style="margin-left: 5%; display: flex; width: 90%; height: auto;">
+        <div class="heading" style="padding-left: 20px; padding-top: 20px;"><h2>Личная информация</h2></div>
+        <div class="row g-3">
+            <div class="col-md-4" style="width: 350px; margin-left: 30px;">
+                <label for="validationCustom01" class="form-label">Имя</label>
+                <input type="text" class="form-control" style="width: 300px;" id="validationCustom01" disabled
+                       th:field="*{customer.firstName}">
+
+            </div>
+            <div class="col-md-4" style="width: 350px;">
+                <label for="validationCustom02" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{customer.secondName}"
+                       disabled>
+
+            </div>
+            <div class="col-md-4" style="width: 800px;">
+                <label for="validationCustom02" class="form-label">Отчество</label>
+                <input type="text" class="form-control" id="validationCustom02" style="width: 300px;"
+                       th:field="*{customer.patronymic}" disabled>
+
+            </div>
+            <div class="col-md-6" style="width: 350px; margin-left: 30px;">
+                <label for="validationCustom03" class="form-label">Email</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{customer.email}" disabled>
+
+            </div>
+
+            <div class="col-md-3" style="width: 900px;">
+                <label for="validationCustom05" class="form-label">Телефон</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{customer.phoneNumber}"
+                       disabled id="validationCustom05">
+
+            </div>
+            <div class="col-md-6" style="width: 500px; margin-left: 30px; margin-bottom: 20px;">
+                <label for="validationCustom03" class="form-label">Адрес</label>
+                <input type="text" class="form-control" style="width: 500px;" th:field="*{customer.address}" disabled
+                       id="validationCustom03">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="card my-5" style="margin-left: 5%; display: flex; width: 90%; height: auto;">
+        <div class="heading" style="padding-left: 20px; padding-top: 20px;"><h2>Платежная информация</h2></div>
+        <div class="row g-3">
+            <div class="col-md-4" style="width: 350px; margin-left: 30px;">
+                <label for="validationCustom01" class="form-label">Номер карты</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{payment.ccNumber}" disabled>
+
+            </div>
+            <div class="col-md-4" style="width: 1000px;">
+                <label for="validationCustom02" class="form-label">Срок истечения</label>
+                <input type="text" class="form-control" style="width: 150px;" th:field="*{payment.ccExpiration}" disabled>
+
+            </div>
+            <div class="col-md-6" style="width: 350px; margin-left: 30px;">
+                <label for="validationCustom03" class="form-label">Владелец карты</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{payment.ccHolder}" disabled>
+            </div>
+
+            <div class="col-md-3" style="width: 900px; margin-bottom: 20px;">
+                <label for="validationCustom05" class="form-label">CVV</label>
+                <input type="text" class="form-control" style="width: 150px;" th:field="*{payment.ccCVV}" disabled>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="card my-5" style="margin-left:
+5%; display: flex; width: 90%; height: auto;">
+        <div class="heading" style="padding-left: 20px; padding-top: 20px;"><h2>Доставка</h2></div>
+        <div class="row g-3">
+            <div class="col-md-4" style="width: 350px; margin-left: 30px;">
+                <label for="validationCustom01" class="form-label">Сервис</label>
+                <input type="text" class="form-control" th:field="*{delivery.name}" style="width: 300px;" disabled>
+            </div>
+            <div class="col-md-4" style="width: 200px;">
+                <label for="validationCustom02" class="form-label">Среднее время доставки</label>
+                <input type="text" class="form-control" th:field="*{delivery.avgDeliveryTime}" style="width: 150px;" disabled>
+
+            </div>
+            <div class="col-md-6" style="width: 350px; margin-left: 30px; margin-bottom: 20px;">
+                <label for="validationCustom03"  class="form-label">Стоимость</label>
+                <input type="text" class="form-control" style="width: 300px;" th:field="*{delivery.cost}" disabled>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="my-5"
+         style="margin-left: 5%; display: flex; width: 90%; height: auto; flex-direction: row; justify-content: space-evenly;">
+        <button class="btn btn-secondary" name="_eventId_home"
+                style="width: 150px; position: relative; left: 200px;">Отмена
+        </button>
+        <button class="btn btn-primary" style="width: 150px; position: relative; right: 200px;" name="_eventId_confirm">
+            Подтвердить
+        </button>
+    </div>
+</form>
+</body>
+</html>

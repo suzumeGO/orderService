@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Оплата</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div style="display: flex; justify-content: center;" class="my-3">
+  <H1>Платежная информация</H1>
+</div>
+
+<div style="display: flex; justify-content: center;">
+  <div>
+    <form method="post" th:object="${payment}" style="display: flex; flex-direction: column; max-width: 1000px; justify-content: center; align-items: center;">
+
+      <div class="form-outline">
+        <input style="width:600px"  id="ccNumber" class="form-control" placeholder="0000000000000000" th:field = "*{ccNumber}"/>
+        <label class="form-label" for="ccNumber">Номер карты</label>
+        <label style="color:red" th:errors= "*{ccNumber}"></label>
+      </div>
+
+      <div style="display: flex;">
+        <div>
+          <input style="width:100px" id="ccCVV" class="form-control" placeholder="000" th:field = "*{ccCVV}"/>
+          <label class="form-label" for="ccCVV">CVV</label>
+          <label style="color:red" th:errors= "*{ccCVV}"></label>
+        </div>
+
+      <div style=" margin-left: 30px;">
+        <input style="width:100px" id="ccExpiration" class="form-control" placeholder="MM/YY" th:field = "*{ccExpiration}"/>
+        <label class="form-label" for="ccExpiration">Срок действия</label>
+        <label style="color:red" th:errors= "*{ccExpiration}"></label>
+      </div>
+
+      </div>
+
+      <div class="form-outline mb-4">
+        <input style="width:600px" id="ccHolder" class="form-control" placeholder="ARTEM ZOTOV" th:field = "*{ccHolder}"/>
+        <label class="form-label" for="ccHolder">Имя владельца</label>
+        <label style="color:red" th:errors= "*{ccHolder}"></label>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary btn-block" name="_eventId_previous">Назад</button>
+        <button type="submit" class="btn btn-primary btn-block" name="_eventId_cardEntered">Продолжить</button>
+      </div>
+      <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}">
+    </form>
+  </div>
+</div>
+</body>
+</html>
